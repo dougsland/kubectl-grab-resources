@@ -1,13 +1,13 @@
-kubectl **pack-deployment** plugin detects your deployment in any namespace and export all requirements in a single YAML. 
+kubectl **pack** plugin detects your resources in any namespace and export all requirements in a single YAML. 
 
 **How to use?**
   ```
-  $ kubectl pack-deployment DEPLOYMENT_NAME
+  $ kubectl pack DEPLOYMENT_NAME
   ```
    
 **Export your entire deployment**  
   ```
-  $ kubectl pack-deployment kibana
+  $ kubectl pack kibana
   Packed wiki from pvc namespace: default  
   Packed wiki from service namespace: default  
   Packed wiki from secret namespace: default  
