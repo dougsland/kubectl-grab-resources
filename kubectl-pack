@@ -41,7 +41,7 @@ do
     echo "---" >> ${OUTPUT_YAML}
     kubectl get ${resource} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
     if [[ $? != 0 ]]; then
-        echo "error.."
+        echo "cannot execute kubectl command.."
         exit 1
     fi
     echo "Packed ${name} from ${resource} namespace: ${namespace}"
