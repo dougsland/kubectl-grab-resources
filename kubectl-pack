@@ -63,7 +63,8 @@ do
     echo "Packed ${name} from ${resource} namespace: ${namespace}"
 
 
-    if [[ ${RESOURCE_FOUND} == "" ]]; then
+    if [ -z "${RESOURCE_FOUND}" ]
+    then
         RESOURCE_FOUND="${resource}"
     else
         RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
