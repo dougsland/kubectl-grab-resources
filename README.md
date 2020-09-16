@@ -13,7 +13,7 @@ kubectl **pack** plugin detects your resources from the deployment name provided
   Packed kibana from secret namespace: monitoring  
   Packed kibana from deployment namespace: monitoring  
   Packed kibana-https from ingressroute namespace: monitoring  
-  Exported deployment wiki via kibana-2020-09-16-00:10:25.yaml
+  Exported deployment kibana via kibana-2020-09-16-00:10:25.yaml
   ```
 **Restore your deployment**
 ```
