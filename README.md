@@ -1,9 +1,10 @@
 # Table of Contents
-1. [**Description**](#--description--)
-2. [**How to use?**](#--how-to-use---)
-3. [**Requirements**](#--requirements--)
-4. [**Export your entire deployment**](#--export-your-entire-deployment--)
-5. [**Restore your deployment**](#--restore-your-deployment--)
+1. [**Description**](#description)
+2. [**How to use?**](#how-to-use)
+3. [**Requirements**](#requirements)
+4. [**Export your entire deployment**](#export-your-entire-deployment)
+5. [**Restore your deployment**](#restore-your-deployment)
+
 
 ## **Description**  
 
