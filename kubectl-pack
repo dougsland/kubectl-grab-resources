@@ -18,7 +18,23 @@ if [[ ! -n "$1" ]]; then
     exit 1
 fi
 
-RESOURCES="clusterrole,clusterrolebinding,configmap,cronjob,deployment,hpa,ingress,ingressroute,job,pv,pvc,secret,service,serviceaccount,statefulset"
+RESOURCES="clusterrole, \
+          clusterrolebinding, \
+          configmap, \
+          cronjob, \
+          deployment, \
+          hpa, \
+          ingress, \
+          ingressroute, \
+          job, \
+          pv, \
+          pvc, \
+          secret, \
+          service, \
+          serviceaccount, \
+          statefulset, \
+          daemonset"
+
 OUTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
