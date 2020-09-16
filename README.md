@@ -1,12 +1,12 @@
 # Table of Contents
-1. [**Description**](#description)
+1. [**About**](#about)
 2. [**How to use?**](#how-to-use)
 3. [**Requirements**](#requirements)
 4. [**Export your entire deployment**](#export-your-entire-deployment)
 5. [**Restore your deployment**](#restore-your-deployment)
 
 
-## **Description**  
+## **About**  
 
 kubectl **pack** plugin detects your resources from the deployment name provided in the script (in any namespace) and export all requirements in a single YAML. 
 
