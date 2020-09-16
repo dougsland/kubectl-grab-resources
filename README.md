@@ -1,10 +1,15 @@
 kubectl **pack** plugin detects your resources from the deployment name provided in the script (in any namespace) and export all requirements in a single YAML. 
 
 # Table of Contents
-1. [**How to use?**](#how-to-use)
-2. [**Requirements**](#requirements)
+1. [**Requirements**](#requirements)
+2. [**How to use?**](#how-to-use)
 3. [**Export your entire deployment**](#export-your-entire-deployment)
 4. [**Restore your deployment**](#restore-your-deployment)
+
+## **Requirements**  
+- [kubectl cli](https://github.com/kubernetes/kubectl)  
+- [Krew package manager for kubectl](https://github.com/kubernetes-sigs/krew)      
+- [neat plugin for kubectl](https://github.com/itaysk/kubectl-neat)  
 
 ## **How to use?**
   ```
@@ -12,11 +17,6 @@ kubectl **pack** plugin detects your resources from the deployment name provided
   $ kubectl pack DEPLOYMENT_NAME
   ```
   
-## **Requirements**  
-- [kubectl cli](https://github.com/kubernetes/kubectl)  
-- [Krew package manager for kubectl](https://github.com/kubernetes-sigs/krew)      
-- [neat plugin for kubectl](https://github.com/itaysk/kubectl-neat)  
-
 ## **Export your entire deployment**  
   ```
   $ kubectl pack kibana
