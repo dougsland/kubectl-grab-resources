@@ -2,6 +2,7 @@ kubectl **pack** plugin detects your resources from the deployment name provided
 
 **How to use?**
   ```
+  $ kubectl get deployment -A
   $ kubectl pack DEPLOYMENT_NAME
   ```
 
