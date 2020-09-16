@@ -1,5 +1,5 @@
 # KUBECTL PACK
-**kubectl pack** plugin detects resources required from the deployment provided as argument (in any namespace) and export it with all dependencies in a single YAML. 
+**kubectl pack** detects resources required from running deployments and export it with all dependencies in a single YAML. 
 
 # Table of Contents
 1. [**Why?**](#why)
