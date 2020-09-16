@@ -6,9 +6,12 @@ kubectl **pack** plugin detects your resources from the deployment name provided
   ```
 
 **Requirements**  
-[kubectl](https://github.com/kubernetes/kubectl)  
-[krew](https://github.com/kubernetes-sigs/krew)  
-[neat plugin](https://github.com/itaysk/kubectl-neat)  
+- [kubectl](https://github.com/kubernetes/kubectl)  
+      Kubectl cli 
+- [krew](https://github.com/kubernetes-sigs/krew)  
+      Krew is the package manager for kubectl plugins.
+- [neat plugin](https://github.com/itaysk/kubectl-neat)  
+      Remove clutter from Kubernetes manifests to make them more readable.
 
 **Export your entire deployment**  
   ```
