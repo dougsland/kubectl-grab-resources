@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+if [[ ! -n "$1" ]]; then
+    echo "Keyword must be specified!"
+    echo "Example: kubectl $0 grafana"
+    exit 1
+fi
+
+RESOURCES="pv,pvc,configmap,ingress,service,secret,deployment,statefulset,hpa,job,cronjob,serviceaccount,clusterrole,clusterrolebinding"
+UTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
+RESOURCE_FOUND=""
+
+kubectl neat --help &> /dev/null
+if [[ $? != 0 ]]; then
+    echo "kubectl neat is required! Visit https://krew.sigs.k8s.io/ for more info"
+    echo "To install the krew neat plugin, use: kubectl krew install neat"
+    exit 1
+fi
+
+for resource in $(echo $RESOURCES | sed "s/,/ /g")
+do
+    resource_name=$(kubectl get ${resource} -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | cut -d '/' -f 2| grep -i $1)
+    if [[ $? != 0 ]]; then
+        continue
+    fi
+    namespace=$(echo ${resource_name} | cut -f1 -d ' ')
+    name=$(echo $resource_name | cut -f2 -d ' ')
+
+    echo "---" >> ${OUTPUT_YAML}
+    kubectl get ${resource} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
+    if [[ $? != 0 ]]; then
+        echo "error.."
+        exit 1
+    fi
+    echo "Packed ${name} from ${resource} namespace: ${namespace}"
+
+    if [[ ${RESOURCE_FOUND} == "" ]]; then
+        RESOURCE_FOUND="${resource}"
+    else
+        RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
+    fi
+done
+
+NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
+if [[ "${NUMBER_RESOURCE}" -gt 0 ]]; then
+    echo "Exported deployment $1 via ${OUTPUT_YAML}"
+fi
