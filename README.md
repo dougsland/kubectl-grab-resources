@@ -8,7 +8,7 @@ kubectl **pack** plugin detects your resources from the deployment name provided
 5. [**Restore your deployment**](#restore-your-deployment)
 
 ## **Why**
-We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments via YAML.
+We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments via YAML.  
 Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the deployment**.
 
 ## **Requirements**  
