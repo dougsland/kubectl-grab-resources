@@ -8,7 +8,7 @@ kubectl **pack** plugin detects your resources from the deployment name provided
 5. [**Restore your deployment**](#restore-your-deployment)
 
 ## **Why**
-We need a simple ***backup like command*** for deployments in **kubectl** cli that exports all requirements resources.
+We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments.
 
 ## **Requirements**  
 - [kubectl cli](https://github.com/kubernetes/kubectl)  
