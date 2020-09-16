@@ -19,7 +19,7 @@ if [[ ! -n "$1" ]]; then
 fi
 
 RESOURCES="pv,pvc,configmap,ingress,service,secret,deployment,statefulset,hpa,job,cronjob,serviceaccount,clusterrole,clusterrolebinding"
-UTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
+OUTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
 kubectl neat --help &> /dev/null
