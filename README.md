@@ -8,11 +8,11 @@ kubectl **pack** plugin detects your resources in any namespace and export all r
 **Export your entire deployment**  
   ```
   $ kubectl pack kibana
-  Packed wiki from pvc namespace: default  
-  Packed wiki from service namespace: default  
-  Packed wiki from secret namespace: default  
-  Packed wiki from deployment namespace: default  
-  Packed wiki-https from ingressroute namespace: default  
+  Packed kibana from pvc namespace: monitoring  
+  Packed kibana from service namespace: monitoring  
+  Packed kibana from secret namespace: monitoring  
+  Packed kibana from deployment namespace: monitoring  
+  Packed kibana-https from ingressroute namespace: monitoring  
   Exported deployment wiki via kibana-2020-09-16-00:10:25.yaml
   ```
 **Restore your deployment**
