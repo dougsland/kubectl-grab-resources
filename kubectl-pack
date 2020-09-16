@@ -18,7 +18,7 @@ if [[ ! -n "$1" ]]; then
     exit 1
 fi
 
-RESOURCES="pv,pvc,configmap,ingress,service,secret,deployment,statefulset,hpa,job,cronjob,serviceaccount,clusterrole,clusterrolebinding"
+RESOURCES="clusterrole,clusterrolebinding,configmap,cronjob,deployment,hpa,ingress,ingressroute,job,pv,pvc,secret,service,serviceaccount,statefulset"
 OUTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
@@ -46,11 +46,34 @@ do
     fi
     echo "Packed ${name} from ${resource} namespace: ${namespace}"
 
+
     if [[ ${RESOURCE_FOUND} == "" ]]; then
         RESOURCE_FOUND="${resource}"
     else
         RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
     fi
+done
+
+# pack some of the CustomResourceDefinition implemented
+cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i $1)
+
+for cdr_name in $(echo $cdr_names)
+do
+    crd_child=$(kubectl get ${cdr_name} -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
+    
+    for item in $(echo $crd_child)
+    do
+        namespace=$(echo $item | awk -F'__' '{ print $1 }')
+        name=$(echo $item | awk -F'__' '{ print $2 }')
+
+        echo "---" >> ${OUTPUT_YAML}
+        kubectl get ${cdr_name} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
+        if [[ $? != 0 ]]; then
+            echo "error.."
+            exit 1
+        fi
+        echo "Packed ${name} from ${cdr_name} namespace: ${namespace}"
+    done
 done
 
 NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
