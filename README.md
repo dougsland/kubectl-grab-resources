@@ -9,7 +9,7 @@
 5. [**Restore your deployment**](#restore-your-deployment)
 
 ## **Why**
-We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments running in the cluster.  
+We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
 Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the deployment**.
 
 ## **Requirements**  
