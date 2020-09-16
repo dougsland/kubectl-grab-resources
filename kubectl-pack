@@ -60,8 +60,14 @@ do
         echo "cannot execute kubectl command.."
         exit 1
     fi
-    echo "Packed ${name} from ${resource} namespace: ${namespace}"
+    msg="Packed ${name} from ${resource}..."
 
+    if [ -z "${namespace}" ]
+    then
+        msg="${msg} namespace: ${namespace}"
+    fi
+
+    echo ${msg}
 
     if [ -z "${RESOURCE_FOUND}" ]
     then
