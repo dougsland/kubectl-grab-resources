@@ -86,7 +86,7 @@ do
         echo "---" >> ${OUTPUT_YAML}
         kubectl get ${cdr_name} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
         if [[ $? != 0 ]]; then
-            echo "error.."
+            echo "cannot execute kubectl command.."
             exit 1
         fi
         echo "Packed ${name} from ${cdr_name} namespace: ${namespace}"
