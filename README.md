@@ -25,6 +25,6 @@ kubectl **pack** plugin detects your resources from the deployment name provided
   ```
 
 ## **Restore your deployment**
-```
-$ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
-```
+  ```
+  $ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
+  ```
