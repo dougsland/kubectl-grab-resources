@@ -4,7 +4,12 @@ kubectl **pack** plugin detects your resources from the deployment name provided
   ```
   $ kubectl pack DEPLOYMENT_NAME
   ```
-   
+
+**Requirements**  
+[kubectl](https://github.com/kubernetes/kubectl)  
+[krew](https://github.com/kubernetes-sigs/krew)  
+[neat plugin](https://github.com/itaysk/kubectl-neat)  
+
 **Export your entire deployment**  
   ```
   $ kubectl pack kibana
