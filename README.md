@@ -1,10 +1,14 @@
 kubectl **pack** plugin detects your resources from the deployment name provided in the script (in any namespace) and export all requirements in a single YAML. 
 
 # Table of Contents
-1. [**Requirements**](#requirements)
-2. [**How to use?**](#how-to-use)
-3. [**Export your entire deployment**](#export-your-entire-deployment)
-4. [**Restore your deployment**](#restore-your-deployment)
+1. [**Why**](#why)
+2. [**Requirements**](#requirements)
+3. [**How to use?**](#how-to-use)
+4. [**Export your entire deployment**](#export-your-entire-deployment)
+5. [**Restore your deployment**](#restore-your-deployment)
+
+## **Why**
+We need a simple *backup like command* for deployments in **kubectl** command that exports all requirements resources.
 
 ## **Requirements**  
 - [kubectl cli](https://github.com/kubernetes/kubectl)  
