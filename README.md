@@ -1,7 +1,11 @@
 # KUBECTL PACK DEPLOY
 **kubectl pack-deploy** detects resources required from running deployments, statefulsets, daemonsets and export it with all dependencies in a single YAML.
 
+Demo 1: pack-deploy speedtest  
 [![asciicast](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX.svg)](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX)
+
+Demo 2: pack-deploy Kibana  
+[![asciicast](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi.svg)](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi)
 
 # Table of Contents
 1. [**Why?**](#why)
