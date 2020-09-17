@@ -1,18 +1,13 @@
 # KUBECTL PACK DEPLOY
 **kubectl pack-deploy** detects resources required from running deployments, statefulsets, daemonsets and export it with all dependencies in a single YAML.
 
-Demo 1: pack-deploy speedtest  
-[![asciicast](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX.svg)](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX)
-
-Demo 2: pack-deploy Kibana  
-[![asciicast](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi.svg)](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi)
-
 # Table of Contents
 1. [**Why?**](#why)
 2. [**Requirements**](#requirements)
 3. [**How to use?**](#how-to-use)
 4. [**Export your entire deployment**](#export-your-entire-deployment)
 5. [**Restore your deployment**](#restore-your-deployment)
+6. [**Demo**](#Demo)
 
 ## **Why**
 We need a simple ***pack-deploy*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
@@ -45,3 +40,10 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
   ```
   $ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
   ```
+== Demo
+=== pack-deploy speedtest  
+[![asciicast](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX.svg)](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX)
+
+=== pack-deploy Kibana  
+[![asciicast](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi.svg)](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi)
+
