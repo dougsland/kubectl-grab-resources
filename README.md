@@ -1,5 +1,5 @@
-# KUBECTL PACK
-**kubectl pack** detects resources required from running deployments, statefulsets, daemonsets and export it with all dependencies in a single YAML.
+# KUBECTL PACK DEPLOY
+**kubectl pack-deploy** detects resources required from running deployments, statefulsets, daemonsets and export it with all dependencies in a single YAML.
 
 [![asciicast](https://asciinema.org/a/360172.svg)](https://asciinema.org/a/360172)
 
@@ -11,7 +11,8 @@
 5. [**Restore your deployment**](#restore-your-deployment)
 
 ## **Why**
-We need a simple ***pack*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
+We need a simple ***pack-deploy*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
+
 Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the deployment**.
 
 ## **Requirements**  
@@ -22,12 +23,12 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
 ## **How to use?**
   ```
   $ kubectl get deployment -A
-  $ kubectl pack DEPLOYMENT_NAME
+  $ kubectl pack-deploy DEPLOYMENT_NAME
   ```
   
 ## **Export your entire deployment**  
   ```
-  $ kubectl pack kibana
+  $ kubectl pack-deploy kibana
   Packed kibana from pvc namespace: monitoring  
   Packed kibana from service namespace: monitoring  
   Packed kibana from secret namespace: monitoring  
