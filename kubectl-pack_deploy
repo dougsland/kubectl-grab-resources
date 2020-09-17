@@ -14,7 +14,7 @@
 
 if [[ ! -n "$1" ]]; then
     echo "Keyword must be specified!"
-    echo "Example: kubectl pack kibana"
+    echo "Example: kubectl pack-deploy kibana"
     exit 1
 fi
 
