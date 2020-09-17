@@ -7,7 +7,7 @@
 3. [**How to use?**](#how-to-use)
 4. [**Export your entire deployment**](#export-your-entire-deployment)
 5. [**Restore your deployment**](#restore-your-deployment)
-6. [**Demo**](#Demo)
+6. [**Demo**](#demo)
 
 ## **Why**
 We need a simple ***pack-deploy*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
@@ -40,10 +40,10 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
   ```
   $ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
   ```
-== Demo
-=== pack-deploy speedtest  
+## Demo
+### pack-deploy speedtest  
 [![asciicast](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX.svg)](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX)
 
-=== pack-deploy Kibana  
+### pack-deploy Kibana  
 [![asciicast](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi.svg)](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi)
 
