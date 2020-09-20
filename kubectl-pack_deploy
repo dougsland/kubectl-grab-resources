@@ -67,7 +67,7 @@ do
         msg="${msg} namespace: ${namespace}"
     fi
 
-    echo ${msg}
+    echo "${msg}"
 
     if [ -z "${RESOURCE_FOUND}" ]
     then
