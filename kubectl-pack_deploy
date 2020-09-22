@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [[ ! -n "$1" ]]; then
+function usage {
     echo "Keyword must be specified!"
     echo "Example: kubectl pack-deploy kibana"
     exit 1
-fi
+}
 
 RESOURCES="clusterrole, \
           clusterrolebinding, \
@@ -38,71 +38,87 @@ RESOURCES="clusterrole, \
 OUTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
-kubectl neat --help &> /dev/null
-if [[ $? != 0 ]]; then
-    echo "kubectl neat is required! Visit https://krew.sigs.k8s.io/ for more info"
-    echo "To install the krew neat plugin, use: kubectl krew install neat"
-    exit 1
-fi
-
-# shellcheck disable=SC2001
-for resource in $(echo "$RESOURCES" | sed "s/,/ /g")
-do
-    resource_name=$(kubectl get "${resource}" --all-namespaces --no-headers --selector=app="$1" -o custom-columns=":metadata.namespace, :metadata.name")
-    if [[ -z "${resource_name}" ]]; then
-        continue
-    fi
-    namespace=$(echo "${resource_name}" | awk -F ' ' '{print $1}')
-    name=$(echo "${resource_name}" | awk -F ' ' '{print $2}')
-
-    echo "---" >> "${OUTPUT_YAML}"
-    kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
+function check_requirements {
+    kubectl neat --help &> /dev/null
     if [[ $? != 0 ]]; then
-        echo "cannot execute kubectl command.."
+        echo "kubectl neat is required! Visit https://krew.sigs.k8s.io/ for more info"
+        echo "To install the krew neat plugin, use: kubectl krew install neat"
         exit 1
     fi
-    msg="Packed ${name} from ${resource}..."
+}
 
-    if [ -z "${namespace}" ]
-    then
-        msg="${msg} namespace: ${namespace}"
-    fi
-
-    echo "${msg}"
-
-    if [ -z "${RESOURCE_FOUND}" ]
-    then
-        RESOURCE_FOUND="${resource}"
-    else
-        RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
-    fi
-done
-
-# pack some of the CustomResourceDefinition implemented
-cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i "$1")
-
-# shellcheck disable=SC2116
-for cdr_name in $(echo "${cdr_names}")
-do
-    # shellcheck disable=SC1083
-    crd_child=$(kubectl get "${cdr_name}" -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
-    
-    for item in $(echo "${crd_child}")
+function collect_resources {
+    # shellcheck disable=SC2001
+    for resource in $(echo "$RESOURCES" | sed "s/,/ /g")
     do
-        namespace=$(echo "${item}" | awk -F'__' '{ print $1 }')
-        name=$(echo "${item}" | awk -F'__' '{ print $2 }')
+        resource_name=$(kubectl get "${resource}" --all-namespaces --no-headers --selector=app="$1" -o custom-columns=":metadata.namespace, :metadata.name")
+        if [[ -z "${resource_name}" ]]; then
+            continue
+        fi
+        namespace=$(echo "${resource_name}" | awk -F ' ' '{print $1}')
+        name=$(echo "${resource_name}" | awk -F ' ' '{print $2}')
 
         echo "---" >> "${OUTPUT_YAML}"
-        kubectl get "${cdr_name}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
+        kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
         if [[ $? != 0 ]]; then
             echo "cannot execute kubectl command.."
             exit 1
         fi
-        echo "Packed ${name} from ${cdr_name} namespace: ${namespace}"
-    done
-done
+        msg="Packed ${name} from ${resource}..."
 
-NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
-if [[ "${NUMBER_RESOURCE}" -gt 0 ]]; then
-    echo "Exported deployment $1 via ${OUTPUT_YAML}"
-fi
+        if [ -z "${namespace}" ]
+        then
+            msg="${msg} namespace: ${namespace}"
+        fi
+        echo "${msg}"
+
+        if [ -z "${RESOURCE_FOUND}" ]
+        then
+            RESOURCE_FOUND="${resource}"
+        else
+            RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
+        fi
+    done
+}
+
+function collect_customresroucedefition {
+    # pack some of the CustomResourceDefinition implemented
+    cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i "$1")
+
+    # shellcheck disable=SC2116
+    for cdr_name in $(echo "${cdr_names}")
+    do
+        # shellcheck disable=SC1083
+        crd_child=$(kubectl get "${cdr_name}" -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
+    
+        for item in $(echo "${crd_child}")
+        do
+            namespace=$(echo "${item}" | awk -F'__' '{ print $1 }')
+            name=$(echo "${item}" | awk -F'__' '{ print $2 }')
+
+            echo "---" >> "${OUTPUT_YAML}"
+            kubectl get "${cdr_name}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
+            if [[ $? != 0 ]]; then
+                echo "cannot execute kubectl command.."
+                exit 1
+            fi
+            echo "Packed ${name} from ${cdr_name} namespace: ${namespace}"
+        done
+   done
+}
+
+function main {
+    if [[ ! -n "$1" ]]; then
+        usage
+    fi
+    check_requirements
+    collect_resources "$1"
+    collect_customresroucedefition "$1"
+
+    NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
+    if [[ "${NUMBER_RESOURCE}" -gt 0 ]]; then
+        echo "Exported deployment $1 via ${OUTPUT_YAML}"
+    fi
+}
+
+main "$@"
