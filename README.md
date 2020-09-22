@@ -10,7 +10,7 @@
 6. [**Demo**](#demo)
 
 ## **Why**
-Simple command to collect all resources related to a specific label saving the output to a single YAML file.
+Simple command to collect all resources related to a specific label saving the output to a single YAML file.  
 Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the resources**.
 
 ## **Requirements**  
