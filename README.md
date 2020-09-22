@@ -1,5 +1,5 @@
-# KUBECTL PACK DEPLOY
-**kubectl pack-deploy** detects resources required from running deployments, statefulsets, daemonsets and export it with all dependencies in a single YAML.
+# KUBECTL GRAB RESOURCES
+**kubectl grab-resources* command collects all resources based on **label**.
 
 # Table of Contents
 1. [**Why?**](#why)
@@ -10,9 +10,8 @@
 6. [**Demo**](#demo)
 
 ## **Why**
-We need a simple ***pack-deploy*** command in **kubectl** that exports **all requirements resources** for the deployments, statefulsets, daemonsets running in the cluster.  
-
-Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the deployment**.
+Simple command to collect all resources related to a specific label saving the output to a single YAML file.
+Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the resources**.
 
 ## **Requirements**  
 - [kubectl cli](https://github.com/kubernetes/kubectl)  
@@ -21,29 +20,17 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
 
 ## **How to use?**
   ```
-  $ kubectl get deployment -A
-  $ kubectl pack-deploy DEPLOYMENT_NAME
-  ```
-  
-## **Export your entire deployment**  
-  ```
-  $ kubectl pack-deploy kibana
-  Packed kibana from pvc namespace: monitoring  
-  Packed kibana from service namespace: monitoring  
-  Packed kibana from secret namespace: monitoring  
-  Packed kibana from deployment namespace: monitoring  
-  Packed kibana-https from ingressroute namespace: monitoring  
-  Exported deployment kibana via kibana-2020-09-16-00:10:25.yaml
+  $ kubectl grab-resources LABEL_NAME
   ```
 
-## **Restore your deployment**
+## **Restore your resources
   ```
+  $ kubectl grab-resources kibana
   $ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
   ```
 ## Demo
-### pack-deploy speedtest  
-[![asciicast](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX.svg)](https://asciinema.org/a/7kHH3cfZtumzwY4BGNZHkqPAX)
+### grab-resources speedtest  
+show speedtest asciimovie
 
-### pack-deploy Kibana  
-[![asciicast](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi.svg)](https://asciinema.org/a/I7ila7v7PvS48iXVzWX9Q7YTi)
-
+### grab-resources Kibana  
+show kibana asciimovie

@@ -14,7 +14,7 @@
 
 function usage {
     echo "Keyword must be specified!"
-    echo "Example: kubectl pack-deploy kibana"
+    echo "Example: kubectl grab-resources kibana"
     exit 1
 }
 
@@ -117,7 +117,7 @@ function main {
 
     NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
     if [[ "${NUMBER_RESOURCE}" -gt 0 ]]; then
-        echo "Exported deployment $1 via ${OUTPUT_YAML}"
+        echo "Exported resources based on label $1 via ${OUTPUT_YAML}"
     fi
 }
 
