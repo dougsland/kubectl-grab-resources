@@ -27,7 +27,8 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
   ```
   $ kubectl grab-resources kibana  
   ```
-  **Example**: *user deleted kibana resources by mistake*  
+  **Example**:  
+  *user deleted kibana resources by mistake*  
  
   ```
   Restoring:  
