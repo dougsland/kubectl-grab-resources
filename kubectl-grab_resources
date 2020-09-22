@@ -83,21 +83,18 @@ function collect_resources {
 
 function collect_customresroucedefition {
     # pack some of the CustomResourceDefinition implemented
-    cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i "$1")
+    cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.name")
 
     # shellcheck disable=SC2116
     for cdr_name in $(echo "${cdr_names}")
     do
         # shellcheck disable=SC1083
-        crd_child=$(kubectl get "${cdr_name}" -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
+        crd_child=$(kubectl get customresourcedefinitions -A --no-headers --selector="$1" -o custom-columns=":metadata.name")
     
-        for item in $(echo "${crd_child}")
+        for name in $(echo "${crd_child}")
         do
-            namespace=$(echo "${item}" | awk -F'__' '{ print $1 }')
-            name=$(echo "${item}" | awk -F'__' '{ print $2 }')
-
             echo "---" >> "${OUTPUT_YAML}"
-            kubectl get "${cdr_name}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
+            kubectl get customresourcedefinitions "${name}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
             if [[ $? != 0 ]]; then
                 echo "cannot execute kubectl command.."
                 exit 1
