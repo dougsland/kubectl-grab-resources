@@ -1,5 +1,5 @@
 # KUBECTL GRAB RESOURCES
-**kubectl grab-resources* command collects all resources based on **label**.
+**kubectl grab-resources** command collects all resources based on **label**.
 
 # Table of Contents
 1. [**Why?**](#why)
