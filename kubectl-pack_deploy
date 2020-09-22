@@ -45,17 +45,18 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 
-for resource in $(echo $RESOURCES | sed "s/,/ /g")
+# shellcheck disable=SC2001
+for resource in $(echo "$RESOURCES" | sed "s/,/ /g")
 do
-    resource_name=$(kubectl get ${resource} -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | cut -d '/' -f 2| grep -i $1)
-    if [[ $? != 0 ]]; then
+    resource_name=$(kubectl get "${resource}" --all-namespaces --no-headers --selector=app="$1" -o custom-columns=":metadata.namespace, :metadata.name")
+    if [[ -z "${resource_name}" ]]; then
         continue
     fi
-    namespace=$(echo ${resource_name} | cut -f1 -d ' ')
-    name=$(echo $resource_name | cut -f2 -d ' ')
+    namespace=$(echo "${resource_name}" | awk -F ' ' '{print $1}')
+    name=$(echo "${resource_name}" | awk -F ' ' '{print $2}')
 
-    echo "---" >> ${OUTPUT_YAML}
-    kubectl get ${resource} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
+    echo "---" >> "${OUTPUT_YAML}"
+    kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
     if [[ $? != 0 ]]; then
         echo "cannot execute kubectl command.."
         exit 1
@@ -78,19 +79,21 @@ do
 done
 
 # pack some of the CustomResourceDefinition implemented
-cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i $1)
+cdr_names=$(kubectl get customresourcedefinition -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name" | awk -F' ' '{ print $2 }'| grep -i "$1")
 
-for cdr_name in $(echo $cdr_names)
+# shellcheck disable=SC2116
+for cdr_name in $(echo "${cdr_names}")
 do
-    crd_child=$(kubectl get ${cdr_name} -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
+    # shellcheck disable=SC1083
+    crd_child=$(kubectl get "${cdr_name}" -A --no-headers -o custom-columns=":metadata.namespace, :metadata.name"| awk -F' ' '{ print $1"__"$2'})
     
-    for item in $(echo $crd_child)
+    for item in $(echo "${crd_child}")
     do
-        namespace=$(echo $item | awk -F'__' '{ print $1 }')
-        name=$(echo $item | awk -F'__' '{ print $2 }')
+        namespace=$(echo "${item}" | awk -F'__' '{ print $1 }')
+        name=$(echo "${item}" | awk -F'__' '{ print $2 }')
 
-        echo "---" >> ${OUTPUT_YAML}
-        kubectl get ${cdr_name} ${name} -n ${namespace} -o yaml | kubectl neat >> ${OUTPUT_YAML}
+        echo "---" >> "${OUTPUT_YAML}"
+        kubectl get "${cdr_name}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
         if [[ $? != 0 ]]; then
             echo "cannot execute kubectl command.."
             exit 1
