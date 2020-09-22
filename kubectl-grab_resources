@@ -51,7 +51,7 @@ function collect_resources {
     # shellcheck disable=SC2001
     for resource in $(echo "$RESOURCES" | sed "s/,/ /g")
     do
-        resource_name=$(kubectl get "${resource}" --all-namespaces --no-headers --selector=app="$1" -o custom-columns=":metadata.namespace, :metadata.name")
+        resource_name=$(kubectl get "${resource}" --all-namespaces --no-headers --selector="$1" -o custom-columns=":metadata.namespace, :metadata.name")
         if [[ -z "${resource_name}" ]]; then
             continue
         fi
