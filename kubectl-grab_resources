@@ -13,8 +13,9 @@
 # limitations under the License.
 
 function usage {
-    echo "Keyword must be specified!"
-    echo "Example: kubectl grab-resources kibana"
+    echo "Label must be specified!"
+    echo "Example:"
+    echo -e "\t kubectl grab-resources app=kibana"
     exit 1
 }
 
