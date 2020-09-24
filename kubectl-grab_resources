@@ -36,7 +36,7 @@ RESOURCES="clusterrole, \
           statefulset, \
           daemonset"
 
-OUTPUT_YAML="$1-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
+OUTPUT_YAML="$0-output-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
 function check_requirements {
