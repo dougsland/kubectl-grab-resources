@@ -36,7 +36,7 @@ RESOURCES="clusterrole, \
           statefulset, \
           daemonset"
 
-OUTPUT_YAML="$0-output-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
+OUTPUT_YAML="output-kubectl-grab-resources-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
 function check_requirements {
@@ -60,9 +60,15 @@ function collect_resources {
         name=$(echo "${resource_name}" | awk -F ' ' '{print $2}')
 
         echo "---" >> "${OUTPUT_YAML}"
-        kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml | kubectl neat >> "${OUTPUT_YAML}"
+
+        resource_output=$(kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml 2> /dev/null)
         if [[ $? != 0 ]]; then
-            echo "cannot execute kubectl command.."
+            continue
+        fi
+
+        echo "${resource_output}" | kubectl neat >> "${OUTPUT_YAML}"
+        if [[ $? != 0 ]]; then
+            echo "error: cannot execute kubectl neat command.."
             exit 1
         fi
         msg="Packed ${name} from ${resource}..."
