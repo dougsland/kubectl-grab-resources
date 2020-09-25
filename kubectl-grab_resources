@@ -15,7 +15,7 @@
 function usage {
     echo "Label must be specified!"
     echo "Example:"
-    echo -e "\t kubectl grab-resources app=kibana"
+    echo -e "\t kubectl grab-resources -l app=kibana -o output-app_kibana-2020-09-25-12:25:00.yaml"
     exit 1
 }
 
@@ -36,7 +36,6 @@ RESOURCES="clusterrole, \
           statefulset, \
           daemonset"
 
-OUTPUT_YAML="output-kubectl-grab-resources-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
 RESOURCE_FOUND=""
 
 function check_requirements {
@@ -122,13 +121,38 @@ function main {
     if [[ ! -n "$1" ]]; then
         usage
     fi
+
+    while getopts "h:o:l:" opt; do
+        case "${opt}" in
+            h)
+                usage
+                ;;
+            o)
+                OUTPUT_YAML="$OPTARG"
+                ;;
+            l) 
+                LABEL="$OPTARG"
+                ;;
+            *)
+                usage
+                ;;
+        esac
+    done
+
+    if [[ ! -n "${OUTPUT_YAML}" ]]; then
+        OUTPUT_YAML="output-kubectl-grab-resources-$(date '+%Y-%m-%d-%H:%M:%S').yaml"
+    fi
+
+    if [[ ! -n "${LABEL}" ]] ; then
+        usage
+    fi
     check_requirements
-    collect_resources "$1"
-    collect_customresroucedefition "$1"
+    collect_resources "${LABEL}"
+    collect_customresroucedefition "${LABEL}"
 
     NUMBER_RESOURCE=$(echo "$RESOURCE_FOUND" | wc -w)
     if [[ "${NUMBER_RESOURCE}" -gt 0 ]]; then
-        echo "Exported resources based on label $1 via ${OUTPUT_YAML}"
+        echo "Exported resources based on label ${LABEL} via ${OUTPUT_YAML}"
     fi
 }
 
