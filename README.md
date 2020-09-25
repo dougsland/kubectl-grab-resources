@@ -20,7 +20,7 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
 
 ## **How to use?**
   ```
-  $ kubectl grab-resources **-l** LABEL_NAME **-o** OUTPUT_FILENAME.yaml
+  $ kubectl grab-resources -l LABEL_NAME -o OUTPUT_FILENAME.yaml
   ```
 
 ## **Restore your resources**
