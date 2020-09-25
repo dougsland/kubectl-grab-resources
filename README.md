@@ -25,7 +25,7 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
 
 ## **Restore your resources**
   ```
-  $ kubectl grab-resources kibana  
+  $ kubectl grab-resources -l app=kibana -o  kibana-2020-09-16-00:10:25.yaml
   ```
   **Example**(s):  
   - *user deleted kibana resources by mistake*  
@@ -35,8 +35,8 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
   $ kubectl apply -f kibana-2020-09-16-00:10:25.yaml
   ```
 ## Demo
-### grab-resources speedtest  
-show speedtest asciimovie
+### grab-resources argocd  
+[![asciicast](https://asciinema.org/a/Vsz0HJSSryCCvwEqOFycFdO2Q.svg)](https://asciinema.org/a/Vsz0HJSSryCCvwEqOFycFdO2Q)
 
 ### grab-resources Kibana  
-show kibana asciimovie
+[![asciicast](https://asciinema.org/a/JAhrlIUjiCAfRu62my4fzVcLI.svg)](https://asciinema.org/a/JAhrlIUjiCAfRu62my4fzVcLI)
