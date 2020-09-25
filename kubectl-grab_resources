@@ -13,8 +13,12 @@
 # limitations under the License.
 
 function usage {
-    echo "Label must be specified!"
-    echo "Example:"
+    echo "Usage:"
+    echo "	-h		Display this message"
+    echo "	-l		Specifcy label"
+    echo "	-o		Output YAML file"
+    echo "Examples:"
+    echo -e "\t kubectl grab-resources -l app=wiki"
     echo -e "\t kubectl grab-resources -l app=kibana -o output-app_kibana-2020-09-25-12:25:00.yaml"
     exit 1
 }
