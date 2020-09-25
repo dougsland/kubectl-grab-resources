@@ -56,35 +56,46 @@ function collect_resources {
         if [[ -z "${resource_name}" ]]; then
             continue
         fi
-        namespace=$(echo "${resource_name}" | awk -F ' ' '{print $1}')
-        name=$(echo "${resource_name}" | awk -F ' ' '{print $2}')
 
-        echo "---" >> "${OUTPUT_YAML}"
+        # converts result to an array, so we can loop
+        namespace=($(echo "${resource_name}" | awk -F ' ' '{print $1}'))
+        name=($(echo "${resource_name}" | awk -F ' ' '{print $2}'))
 
-        resource_output=$(kubectl get "${resource}" "${name}" -n "${namespace}" -o yaml 2> /dev/null)
-        if [[ $? != 0 ]]; then
-            continue
-        fi
+        for inner in ${!namespace[@]}
+        do
+            inner_namespace=${namespace[$inner]}
+            inner_name=${name[$inner]}
 
-        echo "${resource_output}" | kubectl neat >> "${OUTPUT_YAML}"
-        if [[ $? != 0 ]]; then
-            echo "error: cannot execute kubectl neat command.."
-            exit 1
-        fi
-        msg="Packed ${name} from ${resource}..."
+            cmd="kubectl get $resource ${inner_name} -o yaml"
+            # if namespace is <none> don't use it
+            if [ $inner_namespace = "<none>" ]; then
+                cmd="$cmd"
+            else
+                cmd="$cmd -n $namespace"
+            fi
 
-        if [ -z "${namespace}" ]
-        then
-            msg="${msg} namespace: ${namespace}"
-        fi
-        echo "${msg}"
+            echo "---" >> "${OUTPUT_YAML}"
+            $cmd 2>/dev/null | kubectl neat >> "${OUTPUT_YAML}"
+            if [[ $? != 0 ]]; then
+                echo "error: cannot execute kubectl neat command.."
+                exit 1
+            fi
 
-        if [ -z "${RESOURCE_FOUND}" ]
-        then
-            RESOURCE_FOUND="${resource}"
-        else
-            RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
-        fi
+            # display output to stdout
+            msg="Packed ${inner_name} from ${resource}..."
+            if [ -z "${inner_namespace}" ]
+            then
+                msg="${msg} namespace: ${inner_namespace}"
+            fi
+            echo "${msg}"
+
+            if [ -z "${RESOURCE_FOUND}" ]
+            then
+                RESOURCE_FOUND="${resource}"
+            else
+                RESOURCE_FOUND="${RESOURCE_FOUND}, ${resource}"
+            fi
+        done
     done
 }
 
