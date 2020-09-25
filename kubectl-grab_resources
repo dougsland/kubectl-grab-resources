@@ -15,7 +15,7 @@
 function usage {
     echo "Usage:"
     echo "	-h		Display this message"
-    echo "	-l		Specifcy label"
+    echo "	-l		Specify label"
     echo "	-o		Output YAML file"
     echo "Examples:"
     echo -e "\t kubectl grab-resources -l app=wiki"
