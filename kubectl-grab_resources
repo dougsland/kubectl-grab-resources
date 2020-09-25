@@ -13,6 +13,7 @@
 # limitations under the License.
 
 function usage {
+    echo -e "Collects all resources from the cluster based on label.\n"
     echo "Usage:"
     echo "	-h		Display this message"
     echo "	-l		Specify label"
@@ -126,7 +127,7 @@ function main {
         usage
     fi
 
-    while getopts "h:o:l:" opt; do
+    while getopts "ho:l:" opt; do
         case "${opt}" in
             h)
                 usage
