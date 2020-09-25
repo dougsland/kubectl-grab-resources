@@ -61,16 +61,17 @@ function collect_resources {
         namespace=($(echo "${resource_name}" | awk -F ' ' '{print $1}'))
         name=($(echo "${resource_name}" | awk -F ' ' '{print $2}'))
 
-        for inner in ${!namespace[@]}
+        for inner in "${!namespace[@]}"
         do
             inner_namespace=${namespace[$inner]}
             inner_name=${name[$inner]}
 
             cmd="kubectl get $resource ${inner_name} -o yaml"
             # if namespace is <none> don't use it
-            if [ $inner_namespace = "<none>" ]; then
+            if [ "${inner_namespace}" = "<none>" ]; then
                 cmd="$cmd"
             else
+                # shellcheck disable=SC2128
                 cmd="$cmd -n $namespace"
             fi
 
@@ -112,6 +113,7 @@ function collect_customresroucedefition {
             echo "cannot execute kubectl command.."
             exit 1
         fi
+        # shellcheck disable=SC2128
         echo "Packed ${name} from customresourcedefinitions..."
    done
 }
