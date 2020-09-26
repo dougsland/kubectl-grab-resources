@@ -1,5 +1,5 @@
 # KUBECTL GRAB RESOURCES
-**kubectl grab-resources** command collects all resources from the cluster based on **label** input and export to YAML file.
+**kubectl grab-resources** command collects all resources from the cluster based on **label** input and export to a single YAML file.
 
 # Table of Contents
 1. [**Why?**](#why)
