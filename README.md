@@ -4,10 +4,11 @@
 # Table of Contents
 1. [**Why?**](#why)
 2. [**Requirements**](#requirements)
-3. [**How to use?**](#how-to-use)
-4. [**Export your entire deployment**](#export-your-entire-deployment)
-5. [**Restore your deployment**](#restore-your-deployment)
-6. [**Demo**](#demo)
+3. [**How to install?**](#how-to-install)
+4. [**How to use?**](#how-to-use)
+5. [**Export your entire deployment**](#export-your-entire-deployment)
+6. [**Restore your deployment**](#restore-your-deployment)
+7. [**Demo**](#demo)
 
 ## **Why**
 Simple command to collect all resources related to a specific label saving the output to a single YAML file.  
@@ -17,6 +18,9 @@ Later, users can just use ***kubectl apply -f filename.yaml*** to **restore the 
 - [kubectl cli](https://github.com/kubernetes/kubectl)  
 - [Krew package manager for kubectl](https://github.com/kubernetes-sigs/krew)      
 - [neat plugin for kubectl](https://github.com/itaysk/kubectl-neat)  
+
+## **How to install?**
+After installing krew and neat plugin, just copy kubectl-grab_resources to your $PATH/bin
 
 ## **How to use?**
   ```
